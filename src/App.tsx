@@ -92,7 +92,7 @@ const App: React.FC = () => {
             {products.map(p => (
               <button key={p.id} className="product-card" onClick={() => addToCart(p)}>
                 <img
-                  src={`../products/${p.image_url}.png`}
+                  src={`/products/${p.image_url}.png`}
                   onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/150')}
                   alt={p.name}
                   className="product-image"
