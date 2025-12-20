@@ -4,7 +4,8 @@ import { io, Socket } from 'socket.io-client';
 import { type Order, type Product } from '../types';
 
 // In sviluppo usa localhost, in produzione userai l'URL di Render
-const API_URL = 'http://localhost:3000';
+//const API_URL = 'http://localhost:3000';
+const API_URL = 'https://mamma-antonietta-backend.onrender.com';
 
 export const apiClient = axios.create({
     baseURL: `${API_URL}/api`,
