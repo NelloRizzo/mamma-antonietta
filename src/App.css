@@ -1,0 +1,240 @@
+:root {
+  --xmas-red: #d42426;
+  --xmas-green: #165b33;
+  --xmas-gold: #f8b229;
+  --bg-color: #f7f7f7;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg-color);
+}
+
+/* Header Natalizio */
+.main-header {
+  background: var(--xmas-red);
+  color: white;
+  padding: 0.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 5px solid var(--xmas-gold);
+}
+
+.header-logo {
+  height: 40px;
+  vertical-align: middle;
+  margin-right: 15px;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.nav-tabs button {
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  margin-left: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.nav-tabs button.active {
+  background: var(--xmas-gold);
+  color: var(--xmas-green);
+}
+
+/* POS Layout */
+.pos-container {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  height: calc(100vh - 80px);
+  padding: 15px;
+  gap: 15px;
+}
+
+.menu-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  overflow-y: auto;
+}
+
+.product-card {
+  background: white;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  border-color: var(--xmas-red);
+  transform: scale(1.02);
+}
+
+.product-image {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 10px;
+  text-align: center;
+}
+
+.product-name {
+  display: block;
+  font-weight: bold;
+}
+
+.product-price {
+  color: var(--xmas-green);
+  font-weight: 800;
+}
+
+/* Carrello */
+.cart-section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--xmas-green);
+}
+
+.btn-submit-order {
+  background: var(--xmas-green);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.btn-submit-order:disabled {
+  background: #ccc;
+}
+
+.total-display {
+  font-size: 2rem;
+  color: var(--xmas-red);
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.cart-items-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Gestione Ordini (Tabella) */
+.orders-management {
+  padding: 20px;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.orders-table th {
+  background: var(--xmas-green);
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.orders-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.badge.pending {
+  background: #ffeeba;
+  color: #856404;
+}
+
+.badge.completed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.btn-delete {
+  background: var(--xmas-red);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Cucina */
+.kitchen-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.order-ticket {
+  background: #fff;
+  border-top: 10px solid var(--xmas-red);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.ticket-list {
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.btn-complete {
+  width: 100%;
+  background: var(--xmas-green);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
