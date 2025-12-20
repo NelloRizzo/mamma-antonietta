@@ -9,7 +9,7 @@ import {
   socket
 } from './services/api';
 import { type Product, type Order, type CartItem } from './types';
-
+import favicon from '../public/favicon.ico';
 const App: React.FC = () => {
   const [view, setView] = useState<'pos' | 'kitchen' | 'orders'>('pos');
   const [products, setProducts] = useState<Product[]>([]);
@@ -75,7 +75,7 @@ const App: React.FC = () => {
       <header className="main-header">
         <div className="brand">
           <h1>
-            <img src='/favicon.ico' alt="logo" className="header-logo" />
+            <img src={favicon} alt="logo" className="header-logo" />
             Lo Stand di Mamma Antonietta
           </h1>
         </div>
@@ -92,7 +92,7 @@ const App: React.FC = () => {
             {products.map(p => (
               <button key={p.id} className="product-card" onClick={() => addToCart(p)}>
                 <img
-                  src={`./products/${p.image_url}.png`}
+                  src={`products/${p.image_url}.png`}
                   onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/150')}
                   alt={p.name}
                   className="product-image"
