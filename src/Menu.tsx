@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getProducts } from './services/api';
 import { type Product } from './types';
 import './Menu.css';
+import favicon from '../public/favicon.ico';
 
 const Menu: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -14,14 +15,14 @@ const Menu: React.FC = () => {
         <div className="menu-public-container">
             <header className="menu-header">
                 <div className="overlay">
-                    <img src="favicon.ico" alt="Logo" className="menu-logo" />
+                    <img src={favicon} alt="Logo" className="menu-logo" />
                     <h1>Lo Stand di Mamma Antonietta</h1>
                     <p>Il gusto della tradizione, direttamente a tavola</p>
                 </div>
             </header>
 
             <main className="menu-content">
-                {products.map(p => (
+                {products.sort((a, b) => a.name > b.name ? 1 : -1).map(p => (
                     <div key={p.id} className="menu-item-card">
                         <div className="menu-item-image-wrapper">
                             <img
@@ -35,7 +36,6 @@ const Menu: React.FC = () => {
                             {p.ingredients && (
                                 <p className="menu-item-ingredients">{p.ingredients}</p>
                             )}
-                            <p className="menu-item-desc">INGREDIENTI FRESCHI E LOCALI</p>
                             <span className="menu-item-price">€ {Number(p.price).toFixed(2)}</span>
                         </div>
                     </div>

@@ -5,7 +5,7 @@
 }
 
 .menu-header {
-    background: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=80&w=1000') center/cover;
+    background: rgb(121, 11, 11);
     height: 250px;
     position: relative;
     display: flex;

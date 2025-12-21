@@ -81,12 +81,13 @@ const App: React.FC = () => {
     }
   };
 
-  const isPublicMenu = window.location.pathname.includes('/menu');
+  const queryParams = new URLSearchParams(window.location.search);
+  const isPublicMenu = queryParams.get('page') === 'menu';
 
   if (isPublicMenu) {
     return <Menu />;
   }
-  
+
   return (
     <div className="app-container">
       <header className="main-header">
