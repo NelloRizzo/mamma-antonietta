@@ -6,10 +6,12 @@ export interface Product {
     price: number;
     color: string;
     image_url: string;
+    ingredients?: string;
 }
 
 export interface CartItem extends Product {
     cartId: string; // ID univoco temporaneo per il carrello
+    note?: string;
 }
 
 // Struttura degli items salvati nel DB (JSONB)
@@ -17,6 +19,7 @@ export interface OrderItemDB {
     id: number;
     name: string;
     price: number;
+    note?: string
 }
 
 export interface Order {

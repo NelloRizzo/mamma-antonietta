@@ -10,6 +10,7 @@ import {
 } from './services/api';
 import { type Product, type Order, type CartItem } from './types';
 import favicon from '../public/favicon.ico';
+import Menu from './Menu';
 const App: React.FC = () => {
   const [view, setView] = useState<'pos' | 'kitchen' | 'orders'>('pos');
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,7 +43,8 @@ const App: React.FC = () => {
   }, []);
 
   const addToCart = (p: Product) => {
-    setCart([...cart, { ...p, cartId: crypto.randomUUID() }]);
+    const note = '';// window.prompt(`Note per ${p.name} (es.: senza formaggio, senza mozzarella)`) || ""
+    setCart([...cart, { ...p, cartId: crypto.randomUUID(), note }]);
   };
 
   const removeFromCart = (cartId: string) => {
@@ -53,7 +55,14 @@ const App: React.FC = () => {
     if (cart.length === 0) return;
     const total = cart.reduce((sum, item) => sum + Number(item.price), 0);
     try {
-      await createOrder(cart, total);
+      const newOrder = await createOrder(cart, total);
+      // Salviamo le note nel LocalStorage collegandole all'ID dell'ordine ricevuto
+      // Creiamo una mappa: { cartId: "nota" }
+      const notesMap = cart.reduce((acc: any, item) => {
+        if (item.note) acc[item.cartId] = item.note;
+        return acc;
+      }, {});
+      localStorage.setItem(`order_notes_${newOrder.id}`, JSON.stringify(notesMap));
       setCart([]);
     } catch (err) {
       alert("Errore nell'invio ordine");
@@ -62,14 +71,22 @@ const App: React.FC = () => {
 
   const handleMarkAsDone = async (id: number) => {
     await updateOrderStatus(id, 'completed');
+    localStorage.removeItem(`order_notes_${id}`); // Pulizia
   };
 
   const handleDeleteOrder = async (id: number) => {
     if (window.confirm("Sei sicuro di voler eliminare definitivamente questo ordine?")) {
       await deleteOrder(id);
+      localStorage.removeItem(`order_notes_${id}`); // Pulizia
     }
   };
 
+  const isPublicMenu = window.location.pathname.includes('/menu');
+
+  if (isPublicMenu) {
+    return <Menu />;
+  }
+  
   return (
     <div className="app-container">
       <header className="main-header">
@@ -155,18 +172,40 @@ const App: React.FC = () => {
 
       {view === 'kitchen' && (
         <main className="kitchen-container">
-          {orders.filter(o => o.status === 'pending').map(o => (
-            <div key={o.id} className="order-ticket">
-              <div className="ticket-header">
-                <span className="ticket-id">#{o.id}</span>
-                <span>{new Date(o.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          {orders.filter(o => o.status === 'pending').map(o => {
+            // Recuperiamo le note salvate per questo specifico ordine
+            const savedNotesRaw = localStorage.getItem(`order_notes_${o.id}`);
+            const savedNotes = savedNotesRaw ? JSON.parse(savedNotesRaw) : {};
+
+            // LOGICA DI AGGREGAZIONE
+            const aggregatedItems = o.items.reduce((acc: Record<string, { name: string, note: string, count: number }>, item) => {
+              const note = item.note || savedNotes[item.id] || "";
+              const key = `${item.name}-${note}`;
+              if (!acc[key]) {
+                acc[key] = { name: item.name, note, count: 0 };
+              }
+              acc[key].count += 1;
+              return acc;
+            }, {});
+            return (
+              <div key={o.id} className="order-ticket">
+                <div className="ticket-header">
+                  <span className="ticket-id">#{o.id}</span>
+                  <span>{new Date(o.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                </div>
+                <ul className="ticket-list">
+                  {Object.values(aggregatedItems).map((item, idx) => (
+                    <li key={idx} className="ticket-item-container">
+                      {item.count > 1 && <span className="item-count">{item.count}x </span>}
+                      <span className="item-name">{item.name}</span>
+                      {item.note && <div className="item-note">📝 {item.note}</div>}
+                    </li>
+                  ))}
+                </ul>
+                <button className="btn-complete" onClick={() => handleMarkAsDone(o.id)}>PRONTO ✅</button>
               </div>
-              <ul className="ticket-list">
-                {o.items.map((item, idx) => <li key={idx}>{item.name}</li>)}
-              </ul>
-              <button className="btn-complete" onClick={() => handleMarkAsDone(o.id)}>PRONTO ✅</button>
-            </div>
-          ))}
+            )
+          })}
         </main>
       )}
     </div>

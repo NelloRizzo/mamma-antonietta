@@ -227,6 +227,27 @@ body {
   font-size: 1.3rem;
 }
 
+.ticket-item {
+  padding: 5px 0;
+  border-bottom: 1px dashed #ddd;
+  display: flex;
+  align-items: center;
+}
+
+.item-count {
+  background: var(--xmas-red);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 900;
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.item-name {
+  font-weight: 600;
+}
+
 .btn-complete {
   width: 100%;
   background: var(--xmas-green);
@@ -237,4 +258,35 @@ body {
   font-weight: bold;
   cursor: pointer;
   margin-top: 10px;
+}
+.ticket-item-container {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.ticket-item {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem; /* Più grande per la cucina */
+  font-weight: bold;
+}
+
+.item-note {
+  font-size: 1rem;
+  color: #555;
+  background: #fff9c4; /* Giallino tipo post-it */
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+  font-style: italic;
+  border-left: 3px solid var(--xmas-gold);
+}
+
+.item-count {
+  background: var(--xmas-red);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 1.1rem;
 }
